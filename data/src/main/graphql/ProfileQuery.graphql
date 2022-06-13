@@ -1,0 +1,16 @@
+query UsersQuery {
+    users {
+        id
+        name
+        age
+        profession
+        posts{
+            id
+            comment
+        }
+        hoobies{
+            id
+            title
+        }
+    }
+}

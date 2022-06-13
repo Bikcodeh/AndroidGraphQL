@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidGraphQL</string>
+    <string name="default_error">Ups! Something happened.</string>
 </resources>

@@ -1,0 +1,53 @@
+# This file was generated based on "schema.json". Do not edit manually.
+
+schema {
+    query: RootQueryType
+    mutation: Mutation
+}
+
+"Documentation for hobby"
+type Hooby {
+    description: String
+    id: ID
+    title: String
+    user: User
+}
+
+type Mutation {
+    createHobby(description: String, title: String, userId: ID): Hooby
+    createPost(comment: String, userId: ID): Post
+    createUser(age: Int, name: String, profession: String): User
+    removeHobby(id: ID!): Hooby
+    removePost(id: ID!): Post
+    removeUser(id: ID!): User
+    updateHobby(description: String, id: ID, title: String, userId: ID): Hooby
+    updatePost(comment: String, id: ID, userId: ID): Post
+    updateUser(age: Int, id: String!, name: String!, profession: String): User
+}
+
+"Documentation for Post"
+type Post {
+    comment: String
+    id: ID
+    user: User
+}
+
+"Description"
+type RootQueryType {
+    hobbies: [Hooby]
+    hooby(id: ID): Hooby
+    post(id: ID): Post
+    posts: [Post]
+    user(id: String): User
+    users: [User]
+}
+
+"Documentation for user"
+type User {
+    age: Int
+    hoobies: [Hooby]
+    id: ID
+    name: String
+    posts: [Post]
+    profession: String
+}

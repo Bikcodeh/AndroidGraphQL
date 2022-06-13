@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'com.apollographql.apollo3' version "3.3.0"
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    apollo {
+        generateKotlinModels.set(true)
+        packageName.set("com.bikcodeh")
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':domain')
+    /** Dagger hilt */
+    implementation 'com.google.dagger:hilt-android:2.42'
+    kapt 'com.google.dagger:hilt-compiler:2.42'
+    /** Timber */
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+    /** Apollo graphql */
+    implementation 'com.apollographql.apollo3:apollo-runtime:3.3.0'
+    implementation 'com.apollographql.apollo3:apollo-api:3.3.0'
+    /** OkHttp */
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+}
