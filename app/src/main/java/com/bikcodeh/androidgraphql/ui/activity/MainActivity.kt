@@ -1,68 +1,27 @@
 package com.bikcodeh.androidgraphql.ui.activity
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
-import com.bikcodeh.androidgraphql.databinding.ActivityMainBinding
-import com.bikcodeh.androidgraphql.extension.gone
-import com.bikcodeh.androidgraphql.extension.show
-import com.bikcodeh.androidgraphql.ui.adapter.MainAdapter
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.bikcodeh.androidgraphql.R
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setupUI()
-
-        lifecycleScope.launch {
-            mainViewModel.usersIntent.send(MainIntent.FetchUsers)
-        }
-        observer()
+        setContentView(R.layout.activity_main)
+        setupNavigation()
     }
 
-    private fun setupUI() {
-        binding.rvPosts.adapter = mainAdapter
-    }
-
-    private fun observer() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.usersState.collect { usersState ->
-                    when (usersState) {
-                        is MainState.Error -> {
-                            Toast.makeText(
-                                this@MainActivity,
-                                baseContext.getErrorMessageOrDefault(usersState.message),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.pbLoading.gone()
-                        }
-                        MainState.IdLe -> {}
-                        is MainState.Loading -> {
-                            binding.pbLoading.show()
-                        }
-                        is MainState.Users -> {
-                            mainAdapter.submitList(usersState.users)
-                            binding.rvPosts.show()
-                            binding.pbLoading.gone()
-                        }
-                    }
-                }
-            }
-        }
+    private fun setupNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 }

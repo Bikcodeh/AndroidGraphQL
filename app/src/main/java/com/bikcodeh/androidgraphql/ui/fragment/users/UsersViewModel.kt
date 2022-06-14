@@ -1,13 +1,13 @@
-package com.bikcodeh.androidgraphql.ui.activity
+package com.bikcodeh.androidgraphql.ui.fragment.users
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.common.di.IoDispatcher
 import com.bikcodeh.domain.common.Resource
+import com.bikcodeh.domain.model.User
 import com.bikcodeh.domain.usecase.GetUsersUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,11 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class UsersViewModel @Inject constructor(
     private val getUsersUC: GetUsersUC,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
-
+): ViewModel() {
     val usersIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _usersState: MutableStateFlow<MainState> = MutableStateFlow(MainState.IdLe)
     val usersState: StateFlow<MainState> = _usersState
@@ -61,4 +60,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    sealed class MainState {
+        object IdLe: MainState()
+        data class Loading(val isLoading: Boolean): MainState()
+        data class Users(val users: List<User>): MainState()
+        data class Error(val message: String?): MainState()
+    }
+
+    sealed class MainIntent {
+        object FetchUsers: MainIntent()
+    }
 }
+
