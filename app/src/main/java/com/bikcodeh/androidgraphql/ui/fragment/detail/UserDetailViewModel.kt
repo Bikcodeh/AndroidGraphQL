@@ -1,15 +1,16 @@
 package com.bikcodeh.androidgraphql.ui.fragment.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.common.di.IoDispatcher
 import com.bikcodeh.domain.common.Resource
+import com.bikcodeh.domain.model.User
 import com.bikcodeh.domain.usecase.GetUserDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,21 +19,30 @@ class UserDetailViewModel @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val _userDetailState: MutableStateFlow<UserDetailState> =
+        MutableStateFlow(UserDetailState.Loading)
+    val userDetailState get() = _userDetailState.asStateFlow()
+
     fun fetchUserDetail(userId: String) {
         viewModelScope.launch(dispatcher) {
-            val response = getUserDetail(userId)
-            when (response) {
+            when (val response = getUserDetail(userId)) {
                 is Resource.Error -> {
-                    Timber.e("UserDetailViewModel", response.message ?: "")
+                    _userDetailState.value = UserDetailState.Error(response.message)
                 }
                 is Resource.ErrorResource -> {
-                    Timber.e("UserDetailViewModel", response.message ?: "")
+                    _userDetailState.value = UserDetailState.Error(response.message)
                 }
                 is Resource.Loading -> {}
                 is Resource.Success -> {
-                    Timber.e("UserDetailViewModel ${response.data}")
+                    _userDetailState.value = UserDetailState.UserDetail(response.data)
                 }
             }
         }
+    }
+
+    sealed class UserDetailState {
+        data class UserDetail(val user: User?) : UserDetailState()
+        data class Error(val message: String?) : UserDetailState()
+        object Loading : UserDetailState()
     }
 }
