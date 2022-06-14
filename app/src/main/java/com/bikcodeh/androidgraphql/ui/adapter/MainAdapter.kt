@@ -18,7 +18,6 @@ class MainAdapter : ListAdapter<User, MainViewHolder>(DiffCallback()) {
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem == newItem
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -63,6 +64,10 @@ dependencies {
     /** Glide */
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     implementation "androidx.fragment:fragment-ktx:1.4.1"
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
+
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
     testImplementation 'junit:junit:4.13.2'
