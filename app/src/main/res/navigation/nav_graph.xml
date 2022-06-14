@@ -9,5 +9,24 @@
         android:id="@+id/usersFragment"
         android:name="com.bikcodeh.androidgraphql.ui.fragment.users.UsersFragment"
         android:label="@string/users_title"
-        tools:layout="@layout/fragment_users" />
+        tools:layout="@layout/fragment_users" >
+
+        <action
+            android:id="@+id/action_usersFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.bikcodeh.androidgraphql.ui.fragment.detail.UserDetailFragment"
+        android:label="@string/user_detail_title"
+        tools:layout="@layout/fragment_user_detail">
+
+        <argument
+            android:name="userSelected"
+            app:argType="com.bikcodeh.domain.model.User"
+            app:nullable="false" />
+
+    </fragment>
+
 </navigation>

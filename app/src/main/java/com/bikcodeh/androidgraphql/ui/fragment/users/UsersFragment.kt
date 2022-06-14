@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bikcodeh.androidgraphql.databinding.FragmentUsersBinding
 import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
 import com.bikcodeh.androidgraphql.extension.gone
@@ -25,7 +26,12 @@ class UsersFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val usersViewModel: UsersViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
+    private val mainAdapter: MainAdapter by lazy {
+        MainAdapter { user ->
+            val direction = UsersFragmentDirections.actionUsersFragmentToUserDetailFragment(user)
+            findNavController().navigate(direction)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -8,7 +8,9 @@ import com.bikcodeh.androidgraphql.databinding.ItemUserBinding
 import com.bikcodeh.androidgraphql.ui.viewholder.MainViewHolder
 import com.bikcodeh.domain.model.User
 
-class MainAdapter : ListAdapter<User, MainViewHolder>(DiffCallback()) {
+class MainAdapter(
+    private val onClickUser: (user: User) -> Unit
+) : ListAdapter<User, MainViewHolder>(DiffCallback()) {
 
     private class DiffCallback : DiffUtil.ItemCallback<User>() {
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
@@ -26,7 +28,7 @@ class MainAdapter : ListAdapter<User, MainViewHolder>(DiffCallback()) {
             parent,
             false
         )
-        return MainViewHolder(binding)
+        return MainViewHolder(binding, onClickUser)
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {

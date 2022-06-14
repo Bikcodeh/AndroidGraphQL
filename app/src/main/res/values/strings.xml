@@ -2,4 +2,6 @@
     <string name="app_name">AndroidGraphQL</string>
     <string name="default_error">Ups! Something happened.</string>
     <string name="users_title">Users</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_detail_title">User Detail</string>
 </resources>
