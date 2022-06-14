@@ -1,6 +1,6 @@
 package com.bikcodeh.di
 
-import com.bikcodeh.data.DataMapper
+import com.bikcodeh.mappers.UsersDataMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideDataMapper(): DataMapper {
-        return DataMapper()
+    fun provideDataMapper(): UsersDataMapper {
+        return UsersDataMapper()
     }
 }

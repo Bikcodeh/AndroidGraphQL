@@ -4,25 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.bikcodeh.androidgraphql.databinding.ItemPostBinding
+import com.bikcodeh.androidgraphql.databinding.ItemUserBinding
 import com.bikcodeh.androidgraphql.ui.viewholder.MainViewHolder
-import com.bikcodeh.domain.model.Post
+import com.bikcodeh.domain.model.User
 
-class MainAdapter : ListAdapter<Post, MainViewHolder>(DiffCallback()) {
+class MainAdapter : ListAdapter<User, MainViewHolder>(DiffCallback()) {
 
-    private class DiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem == newItem
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val binding = ItemPostBinding.inflate(
+        val binding = ItemUserBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false

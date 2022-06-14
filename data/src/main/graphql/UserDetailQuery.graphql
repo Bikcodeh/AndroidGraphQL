@@ -1,0 +1,14 @@
+query UserDetailQuery($id: String!) {
+    user(id: $id) {
+        name
+        posts {
+            id
+            comment
+        }
+        hoobies {
+            id
+            title
+            description
+        }
+    }
+}

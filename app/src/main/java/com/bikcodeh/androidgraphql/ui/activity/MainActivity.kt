@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setupUI()
 
         lifecycleScope.launch {
-            mainViewModel.postsIntent.send(MainIntent.FetchPosts)
+            mainViewModel.usersIntent.send(MainIntent.FetchUsers)
         }
         observer()
     }
@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
     private fun observer() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.postsState.collect { postsState ->
-                    when (postsState) {
+                mainViewModel.usersState.collect { usersState ->
+                    when (usersState) {
                         is MainState.Error -> {
                             Toast.makeText(
                                 this@MainActivity,
-                                baseContext.getErrorMessageOrDefault(postsState.message),
+                                baseContext.getErrorMessageOrDefault(usersState.message),
                                 Toast.LENGTH_SHORT
                             ).show()
                             binding.pbLoading.gone()
@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
                         is MainState.Loading -> {
                             binding.pbLoading.show()
                         }
-                        is MainState.Posts -> {
-                            mainAdapter.submitList(postsState.posts)
+                        is MainState.Users -> {
+                            mainAdapter.submitList(usersState.users)
                             binding.rvPosts.show()
                             binding.pbLoading.gone()
                         }

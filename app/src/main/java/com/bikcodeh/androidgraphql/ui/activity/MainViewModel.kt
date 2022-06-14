@@ -2,10 +2,11 @@ package com.bikcodeh.androidgraphql.ui.activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bikcodeh.common.di.IoDispatcher
 import com.bikcodeh.domain.common.Resource
-import com.bikcodeh.domain.repository.MainRepository
 import com.bikcodeh.domain.usecase.GetUsersUC
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getUsersUC: GetUsersUC
+    private val getUsersUC: GetUsersUC,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val postsIntent = Channel<MainIntent>(Channel.UNLIMITED)
-    private val _postsState: MutableStateFlow<MainState> = MutableStateFlow(MainState.IdLe)
-    val postsState: StateFlow<MainState> = _postsState
+    val usersIntent = Channel<MainIntent>(Channel.UNLIMITED)
+    private val _usersState: MutableStateFlow<MainState> = MutableStateFlow(MainState.IdLe)
+    val usersState: StateFlow<MainState> = _usersState
 
     init {
         handleIntent()
@@ -29,30 +31,30 @@ class MainViewModel @Inject constructor(
 
     private fun handleIntent() {
         viewModelScope.launch {
-            postsIntent.consumeAsFlow().collect {
+            usersIntent.consumeAsFlow().collect {
                 when (it) {
-                    MainIntent.FetchPosts -> getData()
+                    MainIntent.FetchUsers -> getUsers()
                 }
             }
         }
     }
 
-    private fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun getUsers() {
+        viewModelScope.launch(dispatcher) {
             getUsersUC()
                 .collect {
                     when (it) {
                         is Resource.Error -> {
-                            _postsState.value = MainState.Error(it.message)
+                            _usersState.value = MainState.Error(it.message)
                         }
                         is Resource.ErrorResource -> {
-                            _postsState.value = MainState.Error(it.message)
+                            _usersState.value = MainState.Error(it.message)
                         }
                         is Resource.Loading -> {
-                            _postsState.value = MainState.Loading(isLoading = true)
+                            _usersState.value = MainState.Loading(isLoading = true)
                         }
                         is Resource.Success -> {
-                            _postsState.value = MainState.Posts(it.data ?: emptyList())
+                            _usersState.value = MainState.Users(it.data ?: emptyList())
                         }
                     }
                 }
