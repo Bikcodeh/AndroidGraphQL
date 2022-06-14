@@ -32,7 +32,6 @@ class MainViewModel @Inject constructor(
             postsIntent.consumeAsFlow().collect {
                 when (it) {
                     MainIntent.FetchPosts -> getData()
-                    else -> {}
                 }
             }
         }
