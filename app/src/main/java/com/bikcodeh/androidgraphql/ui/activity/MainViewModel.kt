@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bikcodeh.domain.common.Resource
 import com.bikcodeh.domain.repository.MainRepository
+import com.bikcodeh.domain.usecase.GetUsersUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val mainRepository: MainRepository
+    private val getUsersUC: GetUsersUC
 ) : ViewModel() {
 
     val postsIntent = Channel<MainIntent>(Channel.UNLIMITED)
@@ -39,7 +40,7 @@ class MainViewModel @Inject constructor(
 
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepository.getData()
+            getUsersUC()
                 .collect {
                     when (it) {
                         is Resource.Error -> {
