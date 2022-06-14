@@ -1,6 +1,5 @@
 package com.bikcodeh.domain.common
 
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 
 sealed class Resource<T>(
