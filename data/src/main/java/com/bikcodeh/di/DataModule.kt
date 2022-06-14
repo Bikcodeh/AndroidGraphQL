@@ -1,5 +1,7 @@
 package com.bikcodeh.di
 
+import com.bikcodeh.mappers.HobbiesDataMapper
+import com.bikcodeh.mappers.PostsDataMapper
 import com.bikcodeh.mappers.UsersDataMapper
 import dagger.Module
 import dagger.Provides
@@ -15,5 +17,17 @@ object DataModule {
     @Singleton
     fun provideDataMapper(): UsersDataMapper {
         return UsersDataMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun providePostsMapper(): PostsDataMapper {
+        return PostsDataMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHobbiesMapper(): HobbiesDataMapper {
+        return HobbiesDataMapper()
     }
 }

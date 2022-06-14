@@ -9,6 +9,6 @@ data class User(
     val name: String,
     val age: Int,
     val profession: String,
-    val posts: List<Post>? = null,
-    val hobbies: List<Hobby>? = null
+    var posts: List<Post>? = null,
+    var hobbies: List<Hobby>? = null
 ): Parcelable

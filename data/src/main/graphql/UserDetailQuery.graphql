@@ -1,6 +1,9 @@
 query UserDetailQuery($id: String!) {
     user(id: $id) {
+        id
         name
+        profession
+        age
         posts {
             id
             comment

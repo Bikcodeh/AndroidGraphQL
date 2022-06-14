@@ -4,6 +4,8 @@ interface Mapper<I, O> {
     fun map(input: I): O
 }
 
+interface NullableMapper<I, O>: Mapper<I?, O?>
+
 // Non-nullable to Non-nullable
 interface ListMapper<I, O>: Mapper<List<I>, List<O>>
 
