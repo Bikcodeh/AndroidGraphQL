@@ -6,4 +6,6 @@
     <string name="user_detail_title">User Detail</string>
     <string name="age">Age</string>
     <string name="profession">Profession</string>
+    <string name="posts">Posts</string>
+    <string name="hobbies">Hobbies</string>
 </resources>
