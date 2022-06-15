@@ -33,6 +33,13 @@ class UsersFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,10 +51,6 @@ class UsersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
-
-        lifecycleScope.launch {
-            usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
-        }
         observer()
     }
 
