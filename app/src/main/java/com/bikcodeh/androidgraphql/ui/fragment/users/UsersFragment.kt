@@ -69,11 +69,11 @@ class UsersFragment : Fragment() {
                 usersViewModel.usersState.collect { usersState ->
                     when (usersState) {
                         UsersViewModel.MainState.IdLe -> {}
-                        is UsersViewModel.MainState.Loading -> binding.pbLoading.show()
+                        is UsersViewModel.MainState.Loading -> binding.usersLoading.laLoading.show()
                         is UsersViewModel.MainState.Users -> {
                             mainAdapter.submitList(usersState.users)
                             binding.rvPosts.show()
-                            binding.pbLoading.gone()
+                            binding.usersLoading.laLoading.gone()
                         }
                         is UsersViewModel.MainState.Error -> {
                             Toast.makeText(
@@ -81,7 +81,7 @@ class UsersFragment : Fragment() {
                                 requireContext().getErrorMessageOrDefault(usersState.message),
                                 Toast.LENGTH_SHORT
                             ).show()
-                            binding.pbLoading.gone()
+                            binding.usersLoading.laLoading.gone()
                         }
                     }
                 }
