@@ -12,4 +12,7 @@
     <string name="internet_connection_error">Ups! There\'s not internet connection.</string>
     <string name="description_btn_add">Add User</string>
     <string name="add_user_title">Add user</string>
+    <string name="label_name">Name</string>
+    <string name="label_age">Age</string>
+    <string name="btn_create_user">Create user</string>
 </resources>

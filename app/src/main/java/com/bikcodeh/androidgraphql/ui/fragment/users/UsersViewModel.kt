@@ -19,7 +19,7 @@ import javax.inject.Inject
 class UsersViewModel @Inject constructor(
     private val getUsersUC: GetUsersUC,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-): ViewModel() {
+) : ViewModel() {
     val usersIntent = Channel<MainIntent>(Channel.UNLIMITED)
     private val _usersState: MutableStateFlow<MainState> = MutableStateFlow(MainState.IdLe)
     val usersState: StateFlow<MainState> = _usersState
@@ -61,14 +61,14 @@ class UsersViewModel @Inject constructor(
     }
 
     sealed class MainState {
-        object IdLe: MainState()
-        data class Loading(val isLoading: Boolean): MainState()
-        data class Users(val users: List<User>): MainState()
-        data class Error(val message: String?): MainState()
+        object IdLe : MainState()
+        data class Loading(val isLoading: Boolean) : MainState()
+        data class Users(val users: List<User>) : MainState()
+        data class Error(val message: String?) : MainState()
     }
 
     sealed class MainIntent {
-        object FetchUsers: MainIntent()
+        object FetchUsers : MainIntent()
     }
 }
 
