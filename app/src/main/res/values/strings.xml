@@ -8,4 +8,6 @@
     <string name="profession">Profession</string>
     <string name="posts">Posts</string>
     <string name="hobbies">Hobbies</string>
+    <string name="retry">Try again</string>
+    <string name="internet_connection_error">Ups! There\'s not internet connection.</string>
 </resources>

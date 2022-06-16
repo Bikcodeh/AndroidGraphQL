@@ -10,6 +10,11 @@
         android:id="@+id/usersLoading"
         layout="@layout/view_loading" />
 
+    <include
+        android:id="@+id/notConnection"
+        layout="@layout/view_not_connection"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPosts"
         android:layout_width="0dp"

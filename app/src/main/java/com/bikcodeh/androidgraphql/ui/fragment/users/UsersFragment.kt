@@ -52,6 +52,7 @@ class UsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         observer()
+        setupListeners()
     }
 
     override fun onDestroyView() {
@@ -69,11 +70,15 @@ class UsersFragment : Fragment() {
                 usersViewModel.usersState.collect { usersState ->
                     when (usersState) {
                         UsersViewModel.MainState.IdLe -> {}
-                        is UsersViewModel.MainState.Loading -> binding.usersLoading.laLoading.show()
+                        is UsersViewModel.MainState.Loading -> {
+                            binding.notConnection.root.gone()
+                            binding.usersLoading.laLoading.show()
+                        }
                         is UsersViewModel.MainState.Users -> {
                             mainAdapter.submitList(usersState.users)
                             binding.rvPosts.show()
                             binding.usersLoading.laLoading.gone()
+                            binding.notConnection.root.gone()
                         }
                         is UsersViewModel.MainState.Error -> {
                             Toast.makeText(
@@ -82,9 +87,18 @@ class UsersFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                             binding.usersLoading.laLoading.gone()
+                            binding.notConnection.root.show()
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupListeners() {
+        binding.notConnection.btnRetry.setOnClickListener {
+            lifecycleScope.launch {
+                usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
             }
         }
     }
