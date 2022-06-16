@@ -7,6 +7,10 @@
     android:background="@drawable/ic_wave"
     tools:context=".ui.fragment.add.AddUserFragment">
 
+    <include
+        android:id="@+id/addUserLoading"
+        layout="@layout/view_loading" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserName"
         android:layout_width="0dp"
@@ -14,9 +18,11 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:hint="@string/label_name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -48,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/label_age"
+        android:hint="@string/profession"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilAge">
@@ -66,6 +72,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/btn_create_user"
+        app:backgroundTint="@color/purple_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilProfession" />
