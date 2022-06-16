@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bikcodeh.androidgraphql.R
 import com.bikcodeh.androidgraphql.databinding.FragmentAddUserBinding
 import com.bikcodeh.androidgraphql.extension.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,7 @@ class AddUserFragment : Fragment() {
                         }
                         is AddUserViewModel.AddUserState.Response -> {
                             binding.addUserLoading.root.gone()
-                            requireContext().showToast("Added")
+                            requireContext().showToast(getString(R.string.added))
                         }
                     }
                 }
@@ -75,8 +76,7 @@ class AddUserFragment : Fragment() {
                     binding.tieAge.text.toString().toInt(),
                     binding.tieProfession.text.toString()
                 )
-            else
-                Toast.makeText(requireContext(), "Required values", Toast.LENGTH_SHORT).show()
+            else requireContext().showToast(getString(R.string.required_values))
         }
     }
 

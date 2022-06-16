@@ -15,4 +15,6 @@
     <string name="label_name">Name</string>
     <string name="label_age">Age</string>
     <string name="btn_create_user">Create user</string>
+    <string name="required_values">Required values</string>
+    <string name="added">Added succesfully</string>
 </resources>
