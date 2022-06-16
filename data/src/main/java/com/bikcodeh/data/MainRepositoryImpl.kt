@@ -1,12 +1,12 @@
 package com.bikcodeh.data
 
 import com.apollographql.apollo3.ApolloClient
+import com.bikcodeh.CreateUserMutation
 import com.bikcodeh.UserDetailQuery
 import com.bikcodeh.UsersQuery
 import com.bikcodeh.common.di.IoDispatcher
 import com.bikcodeh.common.makeSafeNetworkRequest
 import com.bikcodeh.domain.common.Resource
-import com.bikcodeh.domain.model.Post
 import com.bikcodeh.domain.model.User
 import com.bikcodeh.domain.repository.MainRepository
 import com.bikcodeh.mappers.HobbiesDataMapper
@@ -45,6 +45,14 @@ class MainRepositoryImpl @Inject constructor(
             user?.posts = postsDataMapper.map(response.data?.user?.posts)
             user?.hobbies = hobbiesDataMapper.map(response.data?.user?.hoobies)
             user
+        }
+    }
+
+    override suspend fun addUser(name: String, age: Int, profession: String): Resource<Boolean> {
+        return makeSafeNetworkRequest(dispatcher) {
+            val response =
+                apolloClient.mutation(CreateUserMutation(name, age, profession)).execute()
+            response.data?.createUser?.name?.isNotEmpty() == true
         }
     }
 }

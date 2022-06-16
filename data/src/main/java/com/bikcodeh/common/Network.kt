@@ -12,6 +12,7 @@ suspend fun <T> makeSafeNetworkRequest(
     call: suspend () -> T
 ): Resource<T> {
     return withContext(dispatcher) {
+        Resource.Loading(data = null)
         try {
             Resource.Success(call())
         } catch (exception: UnknownHostException) {
