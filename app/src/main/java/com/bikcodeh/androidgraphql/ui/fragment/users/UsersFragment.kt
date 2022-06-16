@@ -35,7 +35,7 @@ class UsersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
         }
     }
@@ -97,7 +97,7 @@ class UsersFragment : Fragment() {
 
     private fun setupListeners() {
         binding.notConnection.btnRetry.setOnClickListener {
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
             }
         }
