@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bikcodeh.androidgraphql.R
 import com.bikcodeh.androidgraphql.databinding.FragmentUsersBinding
 import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
 import com.bikcodeh.androidgraphql.extension.gone
@@ -35,7 +36,7 @@ class UsersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
         }
     }
@@ -97,9 +98,12 @@ class UsersFragment : Fragment() {
 
     private fun setupListeners() {
         binding.notConnection.btnRetry.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
+            lifecycleScope.launch {
                 usersViewModel.usersIntent.send(UsersViewModel.MainIntent.FetchUsers)
             }
+        }
+        binding.fabAddUser.setOnClickListener {
+            findNavController().navigate(R.id.action_usersFragment_to_addUserFragment)
         }
     }
 }

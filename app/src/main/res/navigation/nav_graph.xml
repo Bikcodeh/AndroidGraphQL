@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_usersFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_addUserFragment"
+            app:destination="@id/addUserFragment" />
     </fragment>
 
     <fragment
@@ -28,5 +31,11 @@
             app:nullable="false" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/addUserFragment"
+        android:name="com.bikcodeh.androidgraphql.ui.fragment.add.AddUserFragment"
+        android:label="@string/add_user_title"
+        tools:layout="@layout/fragment_add_user" />
 
 </navigation>
