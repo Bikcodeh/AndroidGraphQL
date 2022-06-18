@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -76,27 +77,18 @@ class UsersFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 usersViewModel.usersState.collect { usersState ->
-                    when (usersState) {
-                        UsersViewModel.MainState.IdLe -> {}
-                        is UsersViewModel.MainState.Loading -> {
-                            binding.notConnection.root.gone()
-                            binding.usersLoading.laLoading.show()
-                        }
-                        is UsersViewModel.MainState.Users -> {
-                            mainAdapter.submitList(usersState.users)
-                            binding.rvPosts.show()
-                            binding.usersLoading.laLoading.gone()
-                            binding.notConnection.root.gone()
-                        }
-                        is UsersViewModel.MainState.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                requireContext().getErrorMessageOrDefault(usersState.message),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            binding.usersLoading.laLoading.gone()
-                            binding.notConnection.root.show()
-                        }
+                    binding.usersLoading.root.isVisible = usersState.isLoading
+                    if (usersState.error != null) {
+                        Toast.makeText(
+                            requireContext(),
+                            requireContext().getErrorMessageOrDefault(usersState.error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        //binding.notConnection.root.show()
+                    }
+                    if (usersState.users.isNotEmpty()) {
+                        mainAdapter.submitList(usersState.users)
+                        binding.rvPosts.show()
                     }
                 }
             }

@@ -28,8 +28,6 @@ class AddUserViewModel @Inject constructor(
                 is Resource.Error -> {
                     _addUserState.value = AddUserState.Error(data.message)
                 }
-                is Resource.ErrorResource -> _addUserState.value = AddUserState.Error(data.message)
-                is Resource.Loading -> _addUserState.value = AddUserState.Loading
                 is Resource.Success -> _addUserState.value = AddUserState.Response(data.data)
             }
         }

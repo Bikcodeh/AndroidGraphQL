@@ -29,10 +29,6 @@ class UserDetailViewModel @Inject constructor(
                 is Resource.Error -> {
                     _userDetailState.value = UserDetailState.Error(response.message)
                 }
-                is Resource.ErrorResource -> {
-                    _userDetailState.value = UserDetailState.Error(response.message)
-                }
-                is Resource.Loading -> {}
                 is Resource.Success -> {
                     _userDetailState.value = UserDetailState.UserDetail(response.data)
                 }

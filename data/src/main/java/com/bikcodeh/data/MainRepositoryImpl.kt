@@ -28,7 +28,7 @@ class MainRepositoryImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : MainRepository {
 
-    override suspend fun getUsers(): Flow<Resource<List<User>>> = flow {
+    override fun getUsers(): Flow<Resource<List<User>>> = flow {
         val dataEmit = makeSafeNetworkRequest(dispatcher) {
             val response = apolloClient.query(UsersQuery()).execute()
             usersDataMapper.map(response.data?.users)
