@@ -12,3 +12,13 @@ inline fun <R, T> Resource<T>.fold(
     is Resource.Success -> onSuccess(data)
     is Resource.Error -> onFailure(message)
 }
+
+fun <T> Resource<T>.isSuccess(): Boolean = when (this) {
+    is Resource.Success -> true
+    is Resource.Error -> false
+}
+
+fun <T> Resource<T>.isFailure(): Boolean = when (this) {
+    is Resource.Success -> false
+    is Resource.Error -> true
+}
