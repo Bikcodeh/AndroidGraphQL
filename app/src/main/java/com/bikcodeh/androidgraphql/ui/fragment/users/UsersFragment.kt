@@ -11,20 +11,27 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.apollographql.apollo3.ApolloClient
+import com.bikcodeh.UsersSubscription
 import com.bikcodeh.androidgraphql.R
 import com.bikcodeh.androidgraphql.databinding.FragmentUsersBinding
 import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
 import com.bikcodeh.androidgraphql.extension.gone
 import com.bikcodeh.androidgraphql.extension.show
+import com.bikcodeh.androidgraphql.extension.showToast
 import com.bikcodeh.androidgraphql.ui.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var apolloClient: ApolloClient
 
     private val usersViewModel: UsersViewModel by viewModels()
     private val mainAdapter: MainAdapter by lazy {
@@ -94,6 +101,13 @@ class UsersFragment : Fragment() {
                 }
             }
         }
+
+        /*viewLifecycleOwner.lifecycleScope.launch {
+            apolloClient.subscription(UsersSubscription()).toFlow()
+                .collect {
+                    requireContext().showToast(it.data?.readUsers?.name ?: "NULL")
+                }
+        }*/
     }
 
     private fun setupListeners() {

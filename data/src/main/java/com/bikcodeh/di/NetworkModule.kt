@@ -1,16 +1,20 @@
 package com.bikcodeh.di
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.exception.ApolloWebSocketClosedException
 import com.apollographql.apollo3.network.okHttpClient
+import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport
 import com.bikcodeh.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.delay
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import kotlin.math.pow
 
 @Module
 @InstallIn(SingletonComponent::class)

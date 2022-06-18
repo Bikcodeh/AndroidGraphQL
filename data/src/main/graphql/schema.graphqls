@@ -3,6 +3,7 @@
 schema {
     query: RootQueryType
     mutation: Mutation
+    subscription: Subscription
 }
 
 "Documentation for hobby"
@@ -40,6 +41,10 @@ type RootQueryType {
     posts: [Post]
     user(id: String): User
     users: [User]
+}
+
+type Subscription {
+    readUsers: User
 }
 
 "Documentation for user"

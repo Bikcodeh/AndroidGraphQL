@@ -1,0 +1,7 @@
+subscription UsersSubscription {
+    readUsers {
+        name
+        age
+        profession
+    }
+}
