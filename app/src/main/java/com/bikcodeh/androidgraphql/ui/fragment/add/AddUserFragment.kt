@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,7 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bikcodeh.androidgraphql.R
 import com.bikcodeh.androidgraphql.databinding.FragmentAddUserBinding
-import com.bikcodeh.androidgraphql.extension.*
+import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
+import com.bikcodeh.androidgraphql.extension.gone
+import com.bikcodeh.androidgraphql.extension.isEmpty
+import com.bikcodeh.androidgraphql.extension.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,22 +40,16 @@ class AddUserFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                addUserViewModel.addUserState.collect { addUserState ->
-                    when (addUserState) {
-                        is AddUserViewModel.AddUserState.Error -> {
-                            binding.addUserLoading.root.gone()
-                            requireContext().showToast(
-                                requireContext().getErrorMessageOrDefault(addUserState.message)
-                            )
-                        }
-                        AddUserViewModel.AddUserState.Idle -> {}
-                        AddUserViewModel.AddUserState.Loading -> {
-                            binding.addUserLoading.root.show()
-                        }
-                        is AddUserViewModel.AddUserState.Response -> {
-                            binding.addUserLoading.root.gone()
-                            requireContext().showToast(getString(R.string.added))
-                        }
+                addUserViewModel.addUserState.collect { userUiState ->
+                    userUiState.error?.let { errorMessage ->
+                        binding.addUserLoading.root.gone()
+                        requireContext().showToast(
+                            requireContext().getErrorMessageOrDefault(errorMessage)
+                        )
+                    }
+                    binding.addUserLoading.root.isVisible = userUiState.isLoading
+                    if (userUiState.isSuccess) {
+                        requireContext().showToast(getString(R.string.added))
                     }
                 }
             }
