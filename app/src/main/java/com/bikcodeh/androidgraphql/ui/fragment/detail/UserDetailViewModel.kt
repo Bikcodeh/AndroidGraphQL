@@ -47,10 +47,4 @@ class UserDetailViewModel @Inject constructor(
         val error: String? = null,
         val isLoading: Boolean = false
     )
-
-    sealed class UserDetailState {
-        data class UserDetail(val user: User?) : UserDetailState()
-        data class Error(val message: String?) : UserDetailState()
-        object Loading : UserDetailState()
-    }
 }
