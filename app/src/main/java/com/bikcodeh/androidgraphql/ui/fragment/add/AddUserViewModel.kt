@@ -42,11 +42,4 @@ class AddUserViewModel @Inject constructor(
         val isLoading: Boolean = false,
         val error: String? = null
     )
-
-    sealed class AddUserState {
-        object Idle : AddUserState()
-        object Loading : AddUserState()
-        data class Response(val isSuccess: Boolean?) : AddUserState()
-        data class Error(val message: String?) : AddUserState()
-    }
 }
