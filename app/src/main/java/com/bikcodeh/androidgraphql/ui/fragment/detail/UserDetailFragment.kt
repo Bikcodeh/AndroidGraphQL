@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bikcodeh.androidgraphql.databinding.FragmentUserDetailBinding
 import com.bikcodeh.androidgraphql.extension.getErrorMessageOrDefault
-import com.bikcodeh.androidgraphql.extension.gone
 import com.bikcodeh.androidgraphql.extension.show
 import com.bikcodeh.androidgraphql.ui.adapter.HobbiesAdapter
 import com.bikcodeh.androidgraphql.ui.adapter.PostsAdapter
@@ -56,24 +56,21 @@ class UserDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 detailViewModel.userDetailState.collect { detailState ->
-                    when (detailState) {
-                        is UserDetailViewModel.UserDetailState.Error -> {
-                            requireContext().getErrorMessageOrDefault(
-                                detailState.message
-                            )
-                            binding.pbLoadingDetail.gone()
-                        }
-                        UserDetailViewModel.UserDetailState.Loading -> binding.pbLoadingDetail.show()
-                        is UserDetailViewModel.UserDetailState.UserDetail -> {
-                            with(binding) {
-                                tvAge.text = detailState.user?.age.toString()
-                                tvProfession.text = detailState.user?.profession
-                                tvName.text = detailState.user?.name
-                                postsAdapter.submitList(detailState.user?.posts)
-                                hobbiesAdapter.submitList(detailState.user?.hobbies)
-                                pbLoadingDetail.gone()
-                                mcvUserInfo.show()
-                            }
+
+                    binding.pbLoadingDetail.isVisible = detailState.isLoading
+
+                    detailState.error?.let { error ->
+                        requireContext().getErrorMessageOrDefault(error)
+                    }
+
+                    detailState.user?.let { user ->
+                        with(binding) {
+                            tvAge.text = user.age.toString()
+                            tvProfession.text = user.profession
+                            tvName.text = user.name
+                            postsAdapter.submitList(user.posts)
+                            hobbiesAdapter.submitList(user.hobbies)
+                            mcvUserInfo.show()
                         }
                     }
                 }
